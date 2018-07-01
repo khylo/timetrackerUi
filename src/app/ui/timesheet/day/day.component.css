@@ -1,0 +1,18 @@
+.day{
+    border: 1px solid black;
+    height: 50px;
+    border-radius: 999px;
+}
+
+.disabled{
+    border: 1px dashed gray;
+    color: darkgray;
+}
+
+.worked{
+    background-color: red;
+}
+
+.half{
+    background-color: lightcoral;
+}

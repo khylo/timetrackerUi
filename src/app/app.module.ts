@@ -11,7 +11,6 @@ import { RoutingModule } from './routing.module';
 //Material
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from './material.module';
-import { MatIconModule } from '@angular/material';
 
 //UI
 import { AppComponent } from './app.component';
@@ -19,6 +18,8 @@ import { TimesheetComponent } from './ui/timesheet/timesheet.component';
 import { HomeComponent } from './ui/home/home.component';
 import {SignupComponent} from './ui/auth/signup/signup.component';
 import {LoginComponent} from './ui/auth/login/login.component';
+import { DayComponent } from './ui/timesheet/day/day.component';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {LoginComponent} from './ui/auth/login/login.component';
     TimesheetComponent,
     SignupComponent,
     LoginComponent,
+    DayComponent,
     //MatTableComponent,
   ],
   imports: [

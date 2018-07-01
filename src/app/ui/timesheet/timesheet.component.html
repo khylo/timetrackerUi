@@ -4,5 +4,10 @@
     [matDatepicker]="picker"
     placeholder="Choose a date">
   <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
+  <mat-datepicker touchUi="true" #picker></mat-datepicker>
 </mat-form-field>
+<section class="container">
+  <div class="dayHeader" *ngFor="let day of dayCols">{{day}}</div>
+  <app-day *ngFor="let day of days" [day]="day">{{day}}</app-day>
+  Total {{getTotalWorked()}}
+</section>
