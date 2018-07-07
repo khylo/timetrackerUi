@@ -1,6 +1,27 @@
-.container{
+/*.container{
     display:flex;
-    flex-flow: row wrap;
+    flex-flow: column nowrap;   
+}
+
+.header{
+    display:flex;
+    flex-flow: row wrap;    
+}
+
+.body{
+    display:flex;
+    flex-flow: row wrap;    
+}
+*/
+
+.footer{
+    display:flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.footer *{
+    padding-left: 10px;
 }
 
 .dayHeader{
@@ -9,4 +30,18 @@
 
 app-day{
     width:14%;
+}
+
+ul{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+    color: darkblue;
+}
+
+a:hover,
+a:active{
+    color:lightblue;
 }

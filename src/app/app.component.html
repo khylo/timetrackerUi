@@ -1,8 +1,13 @@
-<h1>Timesheet</h1>
-<a routerLink="/">    <mat-icon>home</mat-icon>    </a>  | 
-<a routerLink="/signup">Signup</a> | 
-<a routerLink="/login">Login</a> | 
-<a routerLink="/timesheet">Timesheet</a>
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+    <mat-sidenav #sidenav role="navigation">
+        <app-sidenav-list (clickEmitter)="sidenav.close()" ></app-sidenav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <app-header (toggleEmitter)="sidenav.toggle()"></app-header>            
+            <main  >
+            <router-outlet></router-outlet>
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>
 
 

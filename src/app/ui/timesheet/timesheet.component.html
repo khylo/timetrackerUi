@@ -1,13 +1,21 @@
-<mat-form-field>
-  <input 
-    matInput 
-    [matDatepicker]="picker"
-    placeholder="Choose a date">
-  <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
-  <mat-datepicker touchUi="true" #picker></mat-datepicker>
-</mat-form-field>
-<section class="container">
-  <div class="dayHeader" *ngFor="let day of dayCols">{{day}}</div>
-  <app-day *ngFor="let day of days" [day]="day">{{day}}</app-day>
-  Total {{getTotalWorked()}}
+<section  fxLayout="column" >
+  <section class="header" fxLayout>
+    <ul fxLayout fxLayoutGap="10px">
+      <li><a (click)="changeDate(-12)" >&lt;&lt;</a></li>
+      <li><a (click)="changeDate(-1)">&lt;</a></li>
+      <li>{{monthToShow.format('MMM') }} - {{monthToShow.year()}}</li>
+      <li><a (click)="changeDate(1)">&gt;</a></li>
+      <li><a (click)="changeDate(12)">&gt;&gt;</a></li>
+    </ul>
+  </section>
+  <section class="body" fxLayout="row wrap">
+    <div class="dayHeader" *ngFor="let day of dayCols">{{day}}</div>
+    <app-day *ngFor="let day of days" [day]="day">{{day}}</app-day>
+  </section>
+  <div class="footer" fxLayout>
+    <h2>Total {{getTotalWorked()}}</h2>
+    <app-day [day]="full">Full day</app-day>
+    <app-day [day]="half">Half day</app-day>
+  </div>
+
 </section>

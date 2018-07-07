@@ -14,6 +14,19 @@ export class DayComponent implements OnInit {
   ngOnInit() {
   }
 
+  fireEvent(e){
+    //(mouseover)="fireEvent($event)"
+    console.log(e)
+  }
+
+  onDrag(){
+    console.log("Drag")
+  }
+
+  onDragOver(){
+    console.log("DragOVer")
+  }
+
   toggleState(){
     if(!this.day.selectable)
       return;

@@ -1,7 +1,7 @@
-<div class="day" 
+<button mat-button class="day"
     [ngClass]="{
                 'disabled':!day.selectable,
                 'half':day.timeClocked==0.5,
                 'worked':day.timeClocked==1}"
     (click)="toggleState()"
-        >{{day.day}}</div>
+        >{{day.getDisplayValue()}}</button>

@@ -1,0 +1,15 @@
+
+a{
+    text-decoration: none;
+    color:white;
+}
+
+a:hover,
+a:active{
+    color:lightgray;
+}
+
+mat-icon{
+    padding-right: 3px;
+    vertical-align: middle;
+}

@@ -1,18 +1,28 @@
 .day{
-    border: 1px solid black;
+    //border: 1px solid darkgray;
     height: 50px;
-    border-radius: 999px;
+    //border-radius: 999px;
+}
+
+.day:hover{
+    background-color:rgb(211, 211, 211);
 }
 
 .disabled{
-    border: 1px dashed gray;
+    //border: 1px dashed lightgray;
     color: darkgray;
 }
 
 .worked{
-    background-color: red;
+    background-color: lightblue;
 }
 
 .half{
-    background-color: lightcoral;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 10px,
+        lightblue 10px,
+        lightblue 20px
+    );
 }
