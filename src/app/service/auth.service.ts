@@ -9,6 +9,10 @@ import { AngularFireAuth } from 'angularfire2/auth'
   providedIn: 'root'
 })
 export class AuthService {
+
+    public static AuthSuccessPage = '/home'
+    public static AuthErrorPage = '/home'
+    public static AuthFailPage = '/home'
     private isAuthenticated = false;
     authChange = new Subject<boolean>();
 
@@ -42,7 +46,7 @@ export class AuthService {
         console.log(result);
         this.isAuthenticated=true;
         this.authChange.next(true);
-        this.router.navigate(['/training']);
+        this.router.navigate([AuthService.AuthSuccessPage]);
     }
 
     logout() {
