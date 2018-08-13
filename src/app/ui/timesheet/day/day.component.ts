@@ -14,35 +14,36 @@ export class DayComponent implements OnInit {
   ngOnInit() {
   }
 
-  fireEvent(e){
-    //(mouseover)="fireEvent($event)"
+  fireEvent(e) {
+    // (mouseover)='fireEvent($event)'
     console.log(e)
   }
 
-  onDrag(){
-    console.log("Drag")
+  onDrag() {
+    console.log('Drag')
   }
 
-  onDragOver(){
-    console.log("DragOVer")
+  onDragOver() {
+    console.log('DragOVer')
   }
 
-  toggleState(){
-    if(!this.day.selectable)
-      return;
-    if(typeof this.day.timeClocked == 'undefined' || this.day.timeClocked==0){
-      this.day.timeClocked=1;
+  toggleState() {
+    if (!this.day.selectable) {
+        return;
+    }
+    if (typeof this.day.timeClocked === 'undefined' || this.day.timeClocked === 0){
+      this.day.timeClocked = 1;
       return;
     }
-    //Now it has a vlaue, so we edit
-    if(this.day.timeClocked==1){
-      this.day.timeClocked=.5;
+    // Now it has a vlaue, so we edit
+    if (this.day.timeClocked === 1){
+      this.day.timeClocked = 0;
       return;
     }
-    if(this.day.timeClocked==.5){
-      this.day.timeClocked=0;
+    /*if (this.day.timeClocked === .5){
+      this.day.timeClocked = 0;
       return;
-    }
+    }*/
   }
 
 }

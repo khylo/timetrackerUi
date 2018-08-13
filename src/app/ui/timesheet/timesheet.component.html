@@ -1,12 +1,14 @@
 <section  fxLayout="column" >
-  <section class="header" fxLayout>
-    <ul fxLayout fxLayoutGap="10px">
+  <section fxFlex fxLayout fxLayoutAlign="center" >
+    <ul fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
       <li><a (click)="changeDate(-12)" >&lt;&lt;</a></li>
       <li><a (click)="changeDate(-1)">&lt;</a></li>
       <li>{{monthToShow.format('MMM') }} - {{monthToShow.year()}}</li>
       <li><a (click)="changeDate(1)">&gt;</a></li>
       <li><a (click)="changeDate(12)">&gt;&gt;</a></li>
     </ul>
+    <button mat-fab color="accent" (click)="onSelectAll()">Select All</button>
+    <button mat-fab color="primary" (click)="onClearAll()">Clear</button>
   </section>
   <section class="body" fxLayout="row wrap">
     <div class="dayHeader" *ngFor="let day of dayCols">{{day}}</div>
@@ -14,8 +16,8 @@
   </section>
   <div class="footer" fxLayout>
     <h2>Total {{getTotalWorked()}}</h2>
-    <app-day [day]="full">Full day</app-day>
-    <app-day [day]="half">Half day</app-day>
+    <app-day [day]="full" (click)="selelctAll('full')">Full day</app-day>
+    <app-day [day]="half" (click)="selelctAll('full')">Half day</app-day>
   </div>
 
 </section>

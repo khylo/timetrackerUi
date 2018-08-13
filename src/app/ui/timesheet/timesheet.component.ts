@@ -4,6 +4,7 @@ import { Moment } from 'moment';
 import * as moment from 'moment';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ReturnStatement } from '@angular/compiler';
+import { Settings } from '../../model/settings.model';
 
 @Component({
   selector: 'app-timesheet',
@@ -11,15 +12,14 @@ import { ReturnStatement } from '@angular/compiler';
   styleUrls: ['./timesheet.component.css']
 })
 export class TimesheetComponent implements OnInit {
-  monthToShow : Moment = moment()
-  //year: number = 2018
-  //month: number = 6
+  monthToShow: Moment = moment()
   days: Array<Day> = []
   dayCols: string[] = [];
   weeksToShow: number;
-  displaySunFirst:boolean=false;
+  displaySunFirst: boolean = false;
   full: Day ;
   half: Day ;
+  settings: Settings = new Settings();
 
   constructor() { }
 
@@ -29,7 +29,7 @@ export class TimesheetComponent implements OnInit {
       monthStr = "0"+this.month;
     else
       monthStr= ""+this.month;*/
-    var startOfMonth = this.monthToShow.startOf('month');//moment(this.year+monthStr+"01","YYYYMMDD")
+    var startOfMonth = this.monthToShow.startOf('month'); //moment(this.year+monthStr+"01","YYYYMMDD")
     var firstDayOfMonth:number;
     if(this.displaySunFirst)
       firstDayOfMonth = startOfMonth.day(); //REturns 0 - 6 0 = Sunday, if want other way use .isoWeekday() // returns 1 - 7
@@ -60,20 +60,18 @@ export class TimesheetComponent implements OnInit {
       for(var d=0;d<7;d++){
         selectable=(dayToShow.month()==startOfMonth.month());
 
-        this.days.push(new Day(dayToShow.year(), dayToShow.month(), dayToShow.date(), selectable));
+        this.days.push(new Day(dayToShow.clone(), selectable));
         dayToShow.add(1,'days');
       }
     }
 
-    this.full = new Day(this.monthToShow.year(), this.monthToShow.month(), moment().date(), false, "Full Day");
-    this.full.timeClocked=1;
-    this.half = new Day(this.monthToShow.year(), this.monthToShow.month(), moment().date(), false, "Half Day");
-    this.half.timeClocked=0.5;
-
-    console.log(this.days);
+    this.full = new Day(moment('' + this.monthToShow.year() + this.monthToShow.month() + moment().date(), 'YYYMMDD'), false, 'Full Day');
+    this.full.timeClocked = this.settings.dayWorked;
+    this.half = new Day(moment('' + this.monthToShow.year() + this.monthToShow.month() + moment().date(), 'YYYMMDD'), false, 'Half Day');
+    this.half.timeClocked = this.settings.halfDayWorked;
   }
 
-  getTotalWorked(): number{
+  getTotalWorked(): number {
     var total:number=0;
     this.days.forEach(function(day){
       total+=day.timeClocked;
@@ -81,11 +79,23 @@ export class TimesheetComponent implements OnInit {
     return total;
   }
 
-  changeDate(i:number){
-    console.log("Changing date by "+1+  " from "+this.monthToShow.format('YYYY-MM-DD'))
-    this.monthToShow.add(i,'M');
-    console.log("To "+this.monthToShow.format('YYYY-MM-DD'))
+  changeDate(i: number) {
+    this.monthToShow.add(i, 'M');
     this.ngOnInit();
+  }
+
+  onSelectAll() {
+    this.days.forEach((day) =>  {
+      if (!day.isWeekend() && !day.isHoliday()) {
+        day.setWorked(this.settings.dayWorked, this.settings.timeUnits)
+      }
+    });
+  }
+
+  onClearAll(){
+    this.days.forEach( (day) =>  {
+        day.setWorked(0, this.settings.timeUnits)
+    });
   }
 
 }

@@ -2,6 +2,8 @@
     [ngClass]="{
                 'disabled':!day.selectable,
                 'half':day.timeClocked==0.5,
-                'worked':day.timeClocked==1}"
+                'weekend':day.isWeekend(),
+                'worked':day.timeClocked==1
+                }"
     (click)="toggleState()"
         >{{day.getDisplayValue()}}</button>

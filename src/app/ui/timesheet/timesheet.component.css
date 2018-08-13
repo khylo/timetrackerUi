@@ -14,6 +14,14 @@
 }
 */
 
+button{
+    white-space: normal;
+}
+
+.mat-fab .mat-button-wrapper{
+    line-height: 14px;
+}
+
 .footer{
     display:flex;
     flex-flow: row nowrap;
@@ -26,6 +34,7 @@
 
 .dayHeader{
     width:14%;
+    text-align: center;
 }
 
 app-day{
@@ -34,6 +43,8 @@ app-day{
 
 ul{
     list-style: none;
+    width:100%;
+    font-size: 1.5em;
 }
 
 a{
