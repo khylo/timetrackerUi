@@ -1,9 +1,11 @@
-<button mat-button class="day"
-    [ngClass]="{
-                'disabled':!day.selectable,
-                'half':day.timeClocked==0.5,
-                'weekend':day.isWeekend(),
-                'worked':day.timeClocked==1
-                }"
-    (click)="toggleState()"
-        >{{day.getDisplayValue()}}</button>
+<div (dblclick) = "toggleShowOptions()" (click)="toggleState()" class="day" (blur)="onBlur()" mat-button
+[ngClass]="{
+            'disabled':!day.selectable,
+            'half':day.timeClocked==0.5,
+            'weekend':day.isWeekend(),
+            'worked':day.timeClocked>=1
+            }">
+  <div class="date">{{day.getDisplayValue()}}</div>
+  <div fxLayoutAlign="end" *ngIf="day.timeClocked>0" class="timeClocked">Day</div>
+  <div fxLayoutAlign="end"  *ngIf="day.timeOnCall>0" class="timeOnCall">onCall</div>
+</div>

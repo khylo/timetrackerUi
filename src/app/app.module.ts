@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService} from './service/auth.service'
 
@@ -24,9 +24,9 @@ import { SidenavListComponent } from './ui/navigation/sidenav-list/sidenav-list.
 import { SettingsComponent } from './ui/settings/settings.component';
 
 //Firebase
-import { AngularFireModule } from 'angularfire2';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 
 
@@ -40,21 +40,22 @@ import { environment } from '../environments/environment';
     DayComponent,
     HeaderComponent,
     SidenavListComponent,
-    SettingsComponent,
-    //MatTableComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
     RoutingModule,
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    AngularFirestoreModule.enablePersistence(), // imports firebase/firestore, enablePersistence = offline storage turned on
     AngularFireAuthModule,
   ],
   providers: [AuthService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: []
 })
 export class AppModule { }

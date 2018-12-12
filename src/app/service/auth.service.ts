@@ -3,16 +3,16 @@ import { AuthData } from '../model/auth-data.model';
 import { Subject } from 'rxjs';
 import { Injectable} from '@angular/core';
 import { Router} from '@angular/router';
-import { AngularFireAuth } from 'angularfire2/auth'
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-    public static AuthSuccessPage = '/home'
-    public static AuthErrorPage = '/home'
-    public static AuthFailPage = '/home'
+    public static AuthSuccessPage = '/home';
+    public static AuthErrorPage = '/home';
+    public static AuthFailPage = '/home';
     private isAuthenticated = false;
     authChange = new Subject<boolean>();
 
@@ -25,10 +25,10 @@ export class AuthService {
             authData.email,
             authData.password
         ).then(result => {
-            this.authSuccess(result)
+            this.authSuccess(result);
         }).catch(error => {
             console.log(error);
-        })
+        });
     }
 
     login(authData: AuthData) {
@@ -36,21 +36,21 @@ export class AuthService {
             authData.email,
             authData.password
         ).then(result => {
-            this.authSuccess(result)
+            this.authSuccess(result);
         }).catch(error => {
             console.log(error);
-        })
+        });
     }
 
     private authSuccess(result) {
         console.log(result);
-        this.isAuthenticated=true;
+        this.isAuthenticated = true;
         this.authChange.next(true);
         this.router.navigate([AuthService.AuthSuccessPage]);
     }
 
     logout() {
-        this.isAuthenticated=false;
+        this.isAuthenticated = false;
         this.authChange.next(false);
         this.router.navigate(['/login']);
     }

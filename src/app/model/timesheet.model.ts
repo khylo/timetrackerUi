@@ -6,7 +6,8 @@ import * as moment from 'moment';
 
 
 export class TimesheetModel { 
-  month:string
+  id:string;
+  month:string;
   year: string;
   days: Array<Day> = []
   status: "new" | "active" | "submitted" | "approved";
@@ -17,7 +18,7 @@ export class TimesheetModel {
 
   constuctor(){
     this.dateCreated = moment();
-    this.status="active" 
+    this.status="active"
   }
 
   submit(){

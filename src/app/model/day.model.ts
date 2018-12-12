@@ -1,18 +1,17 @@
 
 import { Moment } from 'moment';
-import { TimeClockedUnit } from './timeClockedUnit.model'
+import { TimeClockedUnit } from './timeClockedUnit.model';
 
 export class Day {
-  holiday: boolean = false;
-  timeClocked: number = 0;
+  holiday = false;
+  timeClocked = 0;
+  timeOnCall = 0;
   unit: TimeClockedUnit;
-
-
 
   constructor(
       private moment: Moment,
-      public selectable:boolean,
-      public override?:string
+      public selectable: boolean,
+      public override?: string
     ) {
       }
 
@@ -24,19 +23,42 @@ export class Day {
 
   }
 
-  setWorked(worked: number, unit: TimeClockedUnit) {
-      if(this.selectable){
+  setWorked(worked: number, unit: TimeClockedUnit = TimeClockedUnit.Day) {
+      if (this.selectable) {
         this.timeClocked = worked;
         this.unit = unit;
       }
+  }
+
+  setOnCall(worked: number, unit: TimeClockedUnit = TimeClockedUnit.Day) {
+    if (this.selectable) {
+      this.timeOnCall = worked;
+      this.unit = unit;
+    }
+  }
+
+  getMoment() {
+    return this.moment;
   }
 
   isWeekend() {
     return this.moment.isoWeekday() === 6 || this.moment.isoWeekday() === 7;
   }
 
+  isSat() {
+    return this.moment.isoWeekday() === 6;
+  }
+
+  isSun() {
+    return this.moment.isoWeekday() === 7;
+  }
+
   isHoliday() {
     return this.holiday;
+  }
+
+  isWeekDay() {
+    return !this.isWeekend() && !this.isHoliday();
   }
 
 }

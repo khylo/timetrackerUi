@@ -1,6 +1,15 @@
 # Timetracker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.5.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
+
+We upgraded this from 6.0.8 tby installing 7 and then running
+(npm i -g pnpm)
+pnpm install --save @angular/material @angular/cdk @angular/animations
+pnpm install --save hammerjs
+pnpm install @angular/flex-layout --save
+pnpm install @ngrx/store
+pnpm install firebase @angular/fire --save
+pnpm install --save moment
 
 ## Development server
 
@@ -25,3 +34,41 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Model
+
+companies/cid also use for agents
+  name
+  email (groupEmail)
+  address
+  website
+  phone
+  users (i.e. people working with company)
+      uid, name, email, .
+  employees 
+      uid, name, email
+
+  roles: crud , canApproveTimeSheets/ canApproveInvoices / canIssuePayment/ canAddCompanyUsers
+
+users/{uid}
+  email, Roles, 
+staticData/
+           holidays
+           roles
+               ReadOnly/ GlobalAdmin
+           {uid}/
+timesheets/{uid}/
+invoices/{uid}
+
+User
+  Wants to see stuff to do .. Create Timesheet
+                              Submit Timesheet
+                              Create invoice
+                              Submit Invoice
+                              Complete Ros
+                              
+
+
+Admin User
+ Wants to see stuff to  ...    Approve Submitted timesheets
+                               Process Submitted Invoices

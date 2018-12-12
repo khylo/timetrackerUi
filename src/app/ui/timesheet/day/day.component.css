@@ -1,17 +1,19 @@
 .day{
-    //border: 1px solid darkgray;
-    height: 50px;
-    //border-radius: 999px;
+  visibility: visible;
+  height: 50px;
+  /* border: 1px solid darkgray;
+   border-radius: 999px;*/
 }
 
-.day:hover{
+/* .day:hover{
     background-color:rgb(211, 211, 211);
-}
+} */
 
 .disabled{
-    //border: 1px dashed lightgray;
+    /* border: 1px dashed lightgray; */
     color: darkgray;
 }
+
 .weekend{
     background-color: #eeeeee;
 }
@@ -33,4 +35,22 @@
 button{
     width:100%;
     padding: 0px;
+}
+
+.date{
+   color: grey;
+}
+
+.timeClocked{
+  width:80%;
+  height:10px;
+  font-size: 8px;
+  /* background-color: darkblue; */
+}
+
+.onCall{
+  width:80%;
+  height:10px;
+  background-color: lightgoldenrodyellow;
+  font-size: 8px;
 }

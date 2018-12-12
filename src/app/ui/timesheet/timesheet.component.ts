@@ -6,6 +6,8 @@ import { Settings } from '../../model/settings.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StaticDataService } from '../../service/static-data.service';
 import { Subscription } from 'rxjs';
+import { TimesheetService } from '../../service/timesheet.service';
+import { TimesheetModel } from 'src/app/model/timesheet.model';
 
 @Component({
   selector: 'app-timesheet',
@@ -15,6 +17,7 @@ import { Subscription } from 'rxjs';
 export class TimesheetComponent implements OnInit, OnDestroy {
   monthToShow: Moment = moment();
   days: Array<Day> = [];
+  selectedDay: Day;
   dayCols: string[] = [];
   weeksToShow: number;
   displaySunFirst = false;
@@ -23,17 +26,29 @@ export class TimesheetComponent implements OnInit, OnDestroy {
   settings: Settings = new Settings();
   formGroup: FormGroup;
   subscriptions: Subscription[] = [];
+  totalWeekDays = 0;
+  totalHolidays = 0;
+  totalSat = 0;
+  totalSun = 0;
+  totalWeekend = 0;
+  totalWorked = 0;
+  totalOnCall: number;
+  timeWorked: number;
+  updateTimeWorked: number;
+  timeOnCall: number;
+  updateTimeOnCall: number;
+  showEditBox = false;
 
 
-  constructor(private staticDataService: StaticDataService ) { }
+  constructor(private staticDataService: StaticDataService, private timesheetService: TimesheetService ) { }
 
   ngOnInit() {
-     /* this.formGroup = new FormGroup({
-      email: new FormControl('', {
+     this.formGroup = new FormGroup({
+      days: new FormControl('', {
         validators: [Validators.required, Validators.email]}),
       password: new FormControl('',
         {validators: [Validators.required]} )
-    }); */
+    });
     this.subscriptions.push(
       this.staticDataService.staticDataObs().subscribe( (data) => {
           console.log('StaticData change');
@@ -92,12 +107,50 @@ export class TimesheetComponent implements OnInit, OnDestroy {
 
   }
 
-  getTotalWorked(): number {
-    let total = 0;
-    this.days.forEach(function(day) {
-      total += day.timeClocked;
+  onSave() {
+    console.log('Saving');
+    this.timesheetService.save({id:"hardwired in component"} as TimesheetModel);
+  }
+
+  onSubmit() {
+    console.log('Submitting');
+    console.log(this.formGroup);
+    this.timesheetService.submit({id:"hardwired in component"}  as TimesheetModel);
+  }
+
+  selectDay(day: Day) {
+    console.log('Selecting Day');
+    console.log(day);
+    this.selectedDay = day;
+    this.updateTimeWorked = day.timeClocked;
+    this.updateTimeOnCall = day.timeOnCall;
+    this.showEditBox = true;
+  }
+
+  getTotalWorked() {
+    this.totalWeekDays = 0;
+    this.totalHolidays = 0;
+    this.totalSat = 0;
+    this.totalSun = 0;
+    this.days.forEach( (day) => {
+      if (day.isHoliday()) {
+        this.totalHolidays += day.timeClocked;
+      }
+      if (day.isSat()) {
+        this.totalSat += day.timeClocked;
+      }
+      if (day.isSun()) {
+        this.totalSun += day.timeClocked;
+      }
+      if (day.isWeekDay()) {
+        this.totalWeekDays += day.timeClocked;
+      }
+      if (day.timeOnCall > 0) {
+        this.totalOnCall += day.timeOnCall;
+      }
     });
-    return total;
+    this.totalWeekend = this.totalSat + this.totalSun;
+    this.totalWorked = this.totalSat + this.totalSun + this.totalWeekDays + this.totalHolidays;
   }
 
   changeDate(i: number) {
@@ -108,24 +161,42 @@ export class TimesheetComponent implements OnInit, OnDestroy {
   onSelectAll() {
     this.days.forEach((day) =>  {
       if (!day.isWeekend() && !day.isHoliday()) {
-        day.setWorked(this.settings.dayWorked, this.settings.timeUnits)
+        day.setWorked(this.settings.dayWorked, this.settings.timeUnits);
       }
     });
+    this.getTotalWorked();
   }
 
   onClearAll() {
     this.days.forEach( (day) =>  {
-        day.setWorked(0, this.settings.timeUnits)
+        day.setWorked(0, this.settings.timeUnits);
     });
+    this.getTotalWorked();
+  }
+
+  onUpdateTimeWorked(event) {
+    if (event.key === 'Enter') {
+      this.selectedDay.setWorked(this.updateTimeWorked);
+      this.showEditBox = false;
+    }
+    if (event.key === 'Escape') {
+      this.showEditBox = false;
+    }
+  }
+
+  onUpdateTimeOnCall(event) {
+    if (event.key === 'Enter') {
+      this.selectedDay.setOnCall(this.updateTimeOnCall);
+      this.showEditBox = false;
+    }
+    if (event.key === 'Escape') {
+      this.showEditBox = false;
+    }
   }
 
 
 
-  /* onSubmit() {
-    console.log(this.loginForm);
-    this.authService.login({
-      email: this.loginForm.value.email,
-      password: this.loginForm.value.password
-    });
-  } */
+  onKeydown(event) {
+    console.log(event);
+  }
 }

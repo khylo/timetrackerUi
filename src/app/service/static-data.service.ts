@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Holiday } from '../model/holiday.model';
@@ -13,7 +13,11 @@ export class StaticDataService implements OnInit, OnDestroy{
   private static Static = '/StaticData';
   // DEcided we don't need this as staticdata shoudl only change invariably and not be too big
   // private static Holidays = StaticDataService.Static + '/Yearly/{year}/Holidays';
-  private static Holidays = StaticDataService.Static + '/Holidays';
+  private static Holidays = 'holidays';
+  private _holidays: Holiday;
+
+  private staticData = {};
+  private subscriptions: Subscription[] = [];
 
   constructor(private db: AngularFirestore) {
   }
@@ -29,25 +33,31 @@ export class StaticDataService implements OnInit, OnDestroy{
       .snapshotChanges()
       .pipe(
       map(docArray => {
-        // throw new Error();
-          return docArray.map(doc => {
+          console.log('Raw data');
+          console.log(docArray);
+          return docArray.map(doc => { // docArray is complex object .. arrya of QueryDocumentSnapshot .. so simplify
           console.log('staticData from DB');
           console.log(doc.payload.doc.data());
           return {
             id: doc.payload.doc.id,
-            name: doc.payload.doc.data()['name'],
+            value: doc.payload.doc.data()
+            /* name: doc.payload.doc.data()['name'],
             month: doc.payload.doc.data()['month'],
             day: doc.payload.doc.data()['day'],
             country: doc.payload.doc.data()['country'],
-            year: doc.payload.doc.data()['year']
+            year: doc.payload.doc.data()['year']*/
           };
         });
       }));
       return obs;
 
     /* this.subscriptions.push(
-      obs.subscribe((holidays: Holiday[]) => {
-        this.excercisesChanged.next(this.availableExcercises.slice());
+      obs.subscribe((staticData: any[]) => {
+        this.staticData = new Map();
+        staticData.forEach(element => {
+          this.staticData
+        });...staticData);
+        this.staticData.push.next(this.availableExcercises.slice());
       },
        error => {
          this.uiService.showSnackbar('Fetching excercises failed, please try again later', null, {duration: 5999});
@@ -55,5 +65,9 @@ export class StaticDataService implements OnInit, OnDestroy{
          console.log(error);
        })
     ); */
+  }
+
+  getHolidays() {
+    return this.staticData[StaticDataService.Holidays];
   }
 }

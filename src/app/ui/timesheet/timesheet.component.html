@@ -1,23 +1,58 @@
-<section  fxLayout="column" >
-  <section fxFlex fxLayout fxLayoutAlign="center" >
-    <ul fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
-      <li><a (click)="changeDate(-12)" >&lt;&lt;</a></li>
-      <li><a (click)="changeDate(-1)">&lt;</a></li>
-      <li>{{monthToShow.format('MMM') }} - {{monthToShow.year()}}</li>
-      <li><a (click)="changeDate(1)">&gt;</a></li>
-      <li><a (click)="changeDate(12)">&gt;&gt;</a></li>
-    </ul>
-    <button mat-fab color="accent" (click)="onSelectAll()">Select All</button>
-    <button mat-fab color="primary" (click)="onClearAll()">Clear</button>
-  </section>
-  <section class="body" fxLayout="row wrap">
-    <div class="dayHeader" *ngFor="let day of dayCols">{{day}}</div>
-    <app-day *ngFor="let day of days" [day]="day">{{day}}</app-day>
-  </section>
-  <div class="footer" fxLayout>
-    <h2>Total {{getTotalWorked()}}</h2>
-    <app-day [day]="full" (click)="selelctAll('full')">Full day</app-day>
-    <app-day [day]="half" (click)="selelctAll('full')">Half day</app-day>
-  </div>
+  <section  fxLayout="column">
+    <section fxLayout name="month">
+        <button mat-button color="accent" fxFlex="20%" (click)="onSelectAll()">Select All</button>
+          <a (click)="changeDate(-12)" ><button mat-button fxFlex="5%" class="thin">&lt;&lt;</button></a>
+          <a (click)="changeDate(-1)" ><button mat-button fxFlex="5%" class="thin">&lt;</button></a>
+          <button mat-button fxFlex="30%">{{monthToShow.format('MMM') }} - {{monthToShow.year()}}</button>
+          <a (click)="changeDate(1)"><button mat-button fxFlex="5%" class="thin">&gt;</button></a>
+          <a (click)="changeDate(12)"><button mat-button fxFlex="5%" class="thin">&gt;&gt;</button></a>
 
-</section>
+        <button mat-button color="primary" fxFlex="20%" (click)="onClearAll()">Clear All</button>
+    </section>
+    <section class="body" fxLayout="row wrap">
+      <div class="dayHeader" *ngFor="let day of dayCols">{{day}}</div>
+      <app-day *ngFor="let day of days" [day]="day" (click)="selectDay(day)" (valueChangeEmitter)="getTotalWorked()">{{day}}</app-day>
+    </section>
+    <section fxLayout="row" fxLayoutGap="10px" class="footer">
+
+      <div fxLayout="column" fxFlex="45%" fxGap="5px">
+        <button mat-button>Not Submited</button>
+        <div fxLayout>
+          <span fxFlex="60%">WeekDays</span>
+          <span fxFlex="40%">{{totalWeekDays}}</span>
+        </div>
+        <div fxLayout>
+          <span fxFlex="60%">Weekends</span>
+          <span fxFlex="40%">{{totalWeekend}}</span>
+        </div>
+        <div fxLayout>
+          <span fxFlex="60%">Holidays</span>
+          <span fxFlex="40%">{{totalHolidays}}</span>
+        </div>
+        <div fxLayout>
+          <span fxFlex="60%">On Call</span>
+          <span fxFlex="40%">{{totalOnCall}}</span>
+        </div>
+        <div fxLayout>
+          <span fxFlex="60%">Total</span>
+          <span fxFlex="40%">{{totalWorked}}</span>
+        </div>
+      </div>
+      <div flxFlex="10%" fxLayout="column" fxLayoutGap="10px">
+          <button mat-fab color="primary" (click)="onSave()">Save</button>
+          <button mat-fab color="accent" (click)="onSubmit()">Submit</button>
+      </div>
+      <div fxLayout="column" *ngIf="showEditBox" fxFlex="45%">
+          <button mat-button >{{this.selectedDay?.getMoment().format('ddd DD MMM YYYY')}}</button>
+          <form>
+          <mat-form-field>
+            <input matInput placeholder="Enter time worked"  type="number" name="timeWorked" [(ngModel)]="updateTimeWorked" (keydown)="onUpdateTimeWorked($event)">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Enter on Call"  type="number" name="timeOnCall" [(ngModel)]="updateTimeOnCall" (keydown)="onUpdateTimeOnCall($event)">
+          </mat-form-field>
+        </form>
+      </div>
+    </section>
+
+  </section>
